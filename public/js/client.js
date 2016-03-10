@@ -5,6 +5,11 @@ function connect(userName) {
 	ws.onopen = function() {
 		console.log("connected as " + userName);
 	};
+	ws.onmessage = function(event) {
+		//TODO: check if JSON is valid
+		var data = $.parseJSON(event.data);
+		$( "#messages" ).append( "<p>" + data.message + "</p>" );
+	};
 };
 
 $(document).ready(function() {
