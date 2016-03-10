@@ -6,7 +6,7 @@ function connect(userName) {
 	ws = new WebSocket(server);
 	ws.onopen = function() {
 		console.log("connected as " + userName);
-		$('#login').slideUp();
+		$('#loginModal').modal('hide');
 	};
 	ws.onmessage = function(event) {
 		//TODO: check if JSON is valid
@@ -25,6 +25,8 @@ function send(message) {
 };
 
 $(document).ready(function() {
+	$('#loginModal').modal('show');
+
 	$('#btnConnect').on('click', function() {
 		var userName = $('#userName').val();
 		connect(userName);
