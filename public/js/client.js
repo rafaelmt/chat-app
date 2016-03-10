@@ -11,12 +11,12 @@ function connect(userName) {
 	ws.onmessage = function(event) {
 		//TODO: check if JSON is valid
 		var data = $.parseJSON(event.data);
-		appendMessage(data.message);
+		appendMessage(data.sender, data.message);
 	};
 };
 
-function appendMessage(message) {
-	$( "#messages" ).append( "<p>" + message + "</p>" );
+function appendMessage(sender, message) {
+	$( "#messages" ).append( "<p>" + sender + ": " + message + "</p>" );
 }
 
 function send(message) {
@@ -33,7 +33,7 @@ $(document).ready(function() {
 	$('#btnSend').on('click', function() {
 		var message = $('#messageInput').val();
 		$('#messageInput').val('');
-		appendMessage(message);
+		appendMessage("me", message);
 		send(message);
 	});
 });
