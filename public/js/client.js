@@ -17,6 +17,7 @@ function connect(userName) {
 
 function appendMessage(sender, message) {
 	$( "#messages" ).append( "<p>" + sender + ": " + message + "</p>" );
+	scrollToBottom();
 }
 
 function send(message) {
@@ -27,15 +28,27 @@ function send(message) {
 $(document).ready(function() {
 	$('#loginModal').modal('show');
 
-	$('#btnConnect').on('click', function() {
+	$('#loginForm').submit(function(e) {
+	    e.preventDefault();
 		var userName = $('#userName').val();
 		connect(userName);
 	});
 
-	$('#btnSend').on('click', function() {
+	$('#sendForm').submit(function(e) {
+	    e.preventDefault();
 		var message = $('#messageInput').val();
 		$('#messageInput').val('');
 		appendMessage("me", message);
 		send(message);
 	});
 });
+
+$('#messageForm').submit(function(event){
+  event.preventDefault();
+});
+
+
+function scrollToBottom() {
+	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 1000);
+
+}
