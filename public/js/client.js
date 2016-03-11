@@ -16,11 +16,26 @@ function connect(userName) {
 	};
 };
 
+function logout() {
+	disconnect();
+	cleanMessages();
+	showLoginModal();
+}
+
+function disconnect() {
+	ws.close();
+};
+
+function cleanMessages() {
+	$("div.message").remove();
+}
+
 function appendMessage(sender, message) {
 	var divClass = "message";
 	if(sender == "me") {
 		divClass = divClass + " " + "message-self";
 	}
+	//TODO: re-write this
 	$( "#messages" ).append( "<div><div class=\"" + divClass + "\">" + sender + ": " + message + "</div></div>" );
 	scrollToBottom();
 }
@@ -32,7 +47,7 @@ function send(message) {
 
 
 $(document).ready(function() {
-	showModal();
+	showLoginModal();
 
 	$('#loginForm').submit(function(e) {
 	    e.preventDefault();
@@ -47,6 +62,20 @@ $(document).ready(function() {
 		appendMessage("me", message);
 		send(message);
 	});
+
+    $('#btnLogout').on('click', function() {
+		showLogoutModal();
+    });
+
+    $('#btnConfirmLogout').on('click', function() {
+		logout();
+		$('#logoutModal').modal('hide');
+    });
+
+    $('#btnDismissLogout').on('click', function() {
+		$('#logoutModal').modal('hide');
+		showLoginModal();
+    });
 });
 
 
@@ -55,16 +84,20 @@ $('#messageForm').submit(function(event){
 });
 
 
-function showModal() {
+function showLoginModal() {
 	$('#loginModal').on('shown.bs.modal', function () {
 		$('#userName').focus();
 	})
-
 	$('#loginModal').modal('show');
-}
+};
+
+function showLogoutModal() {
+	$('#logoutModal').modal('show');
+};
 
 function scrollToBottom() {
 	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 1000);
 
-}
+};
+
 
