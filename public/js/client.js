@@ -1,20 +1,36 @@
 var ws;
 
-function connect(userName) {
-	//TODO: url-encode
-	var server = 'wss://codingtest.meedoc.com/ws?username=' + userName;
-	ws = new WebSocket(server);
-	ws.onopen = function() {
-		console.log("connected as " + userName);
-		$('#loginModal').modal('hide');
-		$('#messageInput').focus();
-	};
-	ws.onmessage = function(event) {
-		//TODO: check if JSON is valid
-		var data = $.parseJSON(event.data);
-		appendMessage(data.sender, data.message);
-	};
-};
+var name;
+var endpoint = 'wss://codingtest.meedoc.com/ws';
+
+function connect(serverUrl, onOpen, onMessage, onClose) {
+	ws = new WebSocket(serverUrl);
+	ws.onopen = onOpen;
+	ws.onmessage = onMessage;
+	ws.onclose = onClose;
+}
+
+function login(userName) {
+	name = userName;
+	var serverUrl = endpoint + "?username=" + userName;
+	connect(serverUrl, onOpen, onMessage, onClose);
+}
+
+function onOpen() {
+	$('#loginModal').modal('hide');
+	$('#messageInput').focus();
+}
+
+function onMessage() {
+	//TODO: check if JSON is valid
+	var data = $.parseJSON(event.data);
+	appendMessage(data.sender, data.message);
+}
+
+function onClose() {
+	console.log('connection lost, reconnecting');
+    setTimeout(function(){connect(ws.url, ws.onopen, ws.onmessage, ws.onclose)}, 5000);
+}
 
 function logout() {
 	disconnect();
@@ -59,7 +75,7 @@ $(document).ready(function() {
 	    e.preventDefault();
 	    showConnectingButton();
 		var userName = $('#userName').val();
-		connect(userName);
+		login(userName);
 	});
 
 	$('#sendForm').submit(function(e) {
