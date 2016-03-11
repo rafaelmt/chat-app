@@ -7,6 +7,7 @@ function connect(userName) {
 	ws.onopen = function() {
 		console.log("connected as " + userName);
 		$('#loginModal').modal('hide');
+		$('#messageInput').focus();
 	};
 	ws.onmessage = function(event) {
 		//TODO: check if JSON is valid
@@ -16,7 +17,11 @@ function connect(userName) {
 };
 
 function appendMessage(sender, message) {
-	$( "#messages" ).append( "<p>" + sender + ": " + message + "</p>" );
+	var divClass = "message";
+	if(sender == "me") {
+		divClass = divClass + " " + "message-self";
+	}
+	$( "#messages" ).append( "<div><div class=\"" + divClass + "\">" + sender + ": " + message + "</div></div>" );
 	scrollToBottom();
 }
 
@@ -25,8 +30,9 @@ function send(message) {
 	ws.send(message);
 };
 
+
 $(document).ready(function() {
-	$('#loginModal').modal('show');
+	showModal();
 
 	$('#loginForm').submit(function(e) {
 	    e.preventDefault();
@@ -43,12 +49,22 @@ $(document).ready(function() {
 	});
 });
 
+
 $('#messageForm').submit(function(event){
   event.preventDefault();
 });
 
 
+function showModal() {
+	$('#loginModal').on('shown.bs.modal', function () {
+		$('#userName').focus();
+	})
+
+	$('#loginModal').modal('show');
+}
+
 function scrollToBottom() {
 	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 1000);
 
 }
+

@@ -1,0 +1,14 @@
+.message {
+	background-color: #EEEEEE;
+	padding: 10px;
+	margin: 5px;
+	display: inline-block;
+	border-radius: 15px;
+}
+
+
+.message-self {
+	background-color: #2C3E50;
+	color: #FFFFFF;
+	float: right;
+}
