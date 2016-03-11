@@ -27,16 +27,22 @@ function disconnect() {
 };
 
 function cleanMessages() {
-	$("div.message").remove();
+	$("div.message-container").remove();
 }
 
 function appendMessage(sender, message) {
-	var divClass = "message";
+	var messageDiv = $('<div/>').addClass('message').text(message);
+	var messageContainerDiv = $('<div/>').addClass('message-container');
 	if(sender == "me") {
-		divClass = divClass + " " + "message-self";
+		messageDiv.addClass("message-self");
+		messageContainerDiv.addClass("message-container-self");
+	} else {
+		messageContainerDiv.append($('<div/>').text(sender + " says:").addClass('sender'));
 	}
-	//TODO: re-write this
-	$( "#messages" ).append( "<div><div class=\"" + divClass + "\">" + sender + ": " + message + "</div></div>" );
+
+	messageContainerDiv.append(messageDiv);
+
+	$('#messages').append(messageContainerDiv);
 	scrollToBottom();
 }
 
@@ -96,7 +102,7 @@ function showLogoutModal() {
 };
 
 function scrollToBottom() {
-	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 1000);
+	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 100);
 
 };
 
