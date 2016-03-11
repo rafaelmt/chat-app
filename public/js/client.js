@@ -57,6 +57,7 @@ $(document).ready(function() {
 
 	$('#loginForm').submit(function(e) {
 	    e.preventDefault();
+	    showConnectingButton();
 		var userName = $('#userName').val();
 		connect(userName);
 	});
@@ -89,6 +90,11 @@ $('#messageForm').submit(function(event){
   event.preventDefault();
 });
 
+function showConnectingButton() {
+	$('#btnConnect').prop('disabled', true);
+	$('#btnConnect').html("Connecting");
+	$('#btnConnect').append($("<span/>").addClass("glyphicon").addClass("glyphicon-refresh").addClass("glyphicon-refresh-animate"));
+}
 
 function showLoginModal() {
 	$('#loginModal').on('shown.bs.modal', function () {
