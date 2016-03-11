@@ -29,8 +29,17 @@ function onMessage() {
 
 function onClose() {
 	console.log('connection lost, reconnecting');
-    setTimeout(function(){connect(ws.url, ws.onopen, ws.onmessage, ws.onclose)}, 5000);
+	$("#messageInput").prop('disabled', true);
+	$("#btnSend").prop('disabled', true);
+	setTimeout(function(){connect(ws.url, onReconnect, ws.onmessage, ws.onclose)}, 3000);
 }
+
+function onReconnect() {
+	$("#messageInput").prop('disabled', false);
+	$("#btnSend").prop('disabled', false);
+	$('#messageInput').focus();
+}
+
 
 function logout() {
 	disconnect();
