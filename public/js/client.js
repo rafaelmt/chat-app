@@ -24,7 +24,7 @@ function onOpen() {
 function onMessage() {
 	//TODO: check if JSON is valid
 	var data = $.parseJSON(event.data);
-	appendMessage(data.sender, data.message);
+	appendMessage(data);
 }
 
 function onClose() {
@@ -53,24 +53,27 @@ function cleanMessages() {
 	$("div.message-container").remove();
 }
 
-function appendMessage(sender, message) {
-	var messageDiv = $('<div/>').addClass('message').text(message);
+function appendMessage(message) {
 	var messageContainerDiv = $('<div/>').addClass('message-container');
-	if(sender == "me") {
+	createMessageDiv(message, messageContainerDiv);
+	$('#messages').append(messageContainerDiv);
+	scrollToBottom();
+}
+
+function createMessageDiv(message, messageContainerDiv) {
+	var messageDiv = $('<div/>').addClass('message').text(message.message);
+	if(message.sender == "me") {
 		messageDiv.addClass("message-self");
 		messageContainerDiv.addClass("message-container-self");
 	} else {
 		var avatarImg = $('<img>',{src:'images/placeholder.png'}).addClass('avatar');
 		messageContainerDiv.append(avatarImg);
-		messageContainerDiv.append($('<div/>').text(sender + " says:").addClass('sender'));
-		updateAvatar(sender, function(url){
+		messageContainerDiv.append($('<div/>').text(message.sender + " says:").addClass('sender'));
+		updateAvatar(message.sender, function(url){
 		    avatarImg.attr("src", url);
 		});
 	}
 	messageContainerDiv.append(messageDiv);
-
-	$('#messages').append(messageContainerDiv);
-	scrollToBottom();
 }
 
 function send(message) {
@@ -116,7 +119,7 @@ $(document).ready(function() {
 	    e.preventDefault();
 		var message = $('#messageInput').val();
 		$('#messageInput').val('');
-		appendMessage("me", message);
+		appendMessage({sender: "me", message: message});
 		send(message);
 	});
 
