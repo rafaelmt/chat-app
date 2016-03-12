@@ -60,10 +60,13 @@ function appendMessage(sender, message) {
 		messageDiv.addClass("message-self");
 		messageContainerDiv.addClass("message-container-self");
 	} else {
-		messageContainerDiv.append($('<img>',{src:'images/placeholder.png'}).addClass('avatar'))
+		var avatarImg = $('<img>',{src:'images/placeholder.png'}).addClass('avatar');
+		messageContainerDiv.append(avatarImg);
 		messageContainerDiv.append($('<div/>').text(sender + " says:").addClass('sender'));
+		updateAvatar(sender, function(url){
+		    avatarImg.attr("src", url);
+		});
 	}
-
 	messageContainerDiv.append(messageDiv);
 
 	$('#messages').append(messageContainerDiv);
@@ -74,6 +77,19 @@ function send(message) {
 	//TODO: check if connected
 	ws.send(message);
 };
+
+function updateAvatar(sender, callback) {
+	$.ajax({
+	  method: "GET",
+	  url: "/avatar",
+	  data: { name: sender }
+	})
+	  .done(function( msg ) {
+		if(msg.url) {
+			callback(msg.url);
+		}
+	});
+}
 
 function disableInput() {
 	$("#messageInput").prop('disabled', true);
