@@ -60,6 +60,7 @@ function appendMessage(sender, message) {
 		messageDiv.addClass("message-self");
 		messageContainerDiv.addClass("message-container-self");
 	} else {
+		messageContainerDiv.append($('<img>',{src:'images/placeholder.png'}).addClass('avatar'))
 		messageContainerDiv.append($('<div/>').text(sender + " says:").addClass('sender'));
 	}
 

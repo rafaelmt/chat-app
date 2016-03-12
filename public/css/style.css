@@ -25,6 +25,13 @@
     font-size: smaller;
 }
 
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin 2.7s infinite linear;
