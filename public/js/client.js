@@ -62,18 +62,21 @@ function appendMessage(message) {
 
 function createMessageDiv(message, messageContainerDiv) {
 	var messageDiv = $('<div/>').addClass('message').text(message.message);
+	var messageSenderDiv = $('<div/>').addClass('message-sender');
 	if(message.sender == "me") {
 		messageDiv.addClass("message-self");
 		messageContainerDiv.addClass("message-container-self");
+		messageSenderDiv.append(messageDiv);
 	} else {
 		var avatarImg = $('<img>',{src:'images/placeholder.png'}).addClass('avatar');
 		messageContainerDiv.append(avatarImg);
-		messageContainerDiv.append($('<div/>').text(message.sender + " says:").addClass('sender'));
+		messageSenderDiv.append($('<div/>').text(message.sender + " says:").addClass('sender'));
+		messageSenderDiv.append(messageDiv);
 		updateAvatar(message.sender, function(url){
 		    avatarImg.attr("src", url);
 		});
 	}
-	messageContainerDiv.append(messageDiv);
+	messageContainerDiv.append(messageSenderDiv);
 }
 
 function send(message) {
