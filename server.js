@@ -12,6 +12,8 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + "/public/views/index.html"); 
 });
 
+var avatarCache = {};
+
 app.get('/avatar', function (req, res) {
 	if(req.query) {
 		getAvatar(req.query.name, function(imageUrl){
@@ -33,12 +35,26 @@ app.listen(3000, function () {
 
 
 function getAvatar(name, callback) {
-	var encodedName = encodeURIComponent(name);
-	var searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles=' + encodedName;
-	rest.get(searchUrl).on('complete', function(data) {
-		var url = parseResponse(data);
-		callback(url);
-	});
+	var cachedAvatar = getCachedAvatar(name);
+	if(cachedAvatar) {
+		callback(cachedAvatar);
+	} else {
+		var encodedName = encodeURIComponent(name);
+		var searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles=' + encodedName;
+		rest.get(searchUrl).on('complete', function(data) {
+			var url = parseResponse(data);
+			cacheAvatar(name, url);
+			callback(url);
+		});
+	}
+}
+
+function cacheAvatar(name, url) {
+	avatarCache[name] = url;
+}
+
+function getCachedAvatar(name) {
+	return avatarCache[name];
 }
 
 function parseResponse(jsonObj) {
