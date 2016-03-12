@@ -29,14 +29,12 @@ function onMessage() {
 
 function onClose() {
 	console.log('connection lost, reconnecting');
-	$("#messageInput").prop('disabled', true);
-	$("#btnSend").prop('disabled', true);
-	setTimeout(function(){connect(ws.url, onReconnect, ws.onmessage, ws.onclose)}, 3000);
+	disableInput();
+	setTimeout(function(){connect(ws.url, onReconnect, ws.onmessage, ws.onclose)}, 3000); 
 }
 
 function onReconnect() {
-	$("#messageInput").prop('disabled', false);
-	$("#btnSend").prop('disabled', false);
+	enableInput();
 	$('#messageInput').focus();
 }
 
@@ -75,6 +73,16 @@ function send(message) {
 	//TODO: check if connected
 	ws.send(message);
 };
+
+function disableInput() {
+	$("#messageInput").prop('disabled', true);
+	$("#btnSend").prop('disabled', true);
+}
+
+function enableInput() {
+	$("#messageInput").prop('disabled', false);
+	$("#btnSend").prop('disabled', false);
+}
 
 
 $(document).ready(function() {
