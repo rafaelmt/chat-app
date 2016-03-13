@@ -28,7 +28,6 @@ function onMessage(event) {
 }
 
 function onClose() {
-	console.log('connection lost, reconnecting');
 	disableInput();
 	setTimeout(function(){connect(ws.url, onReconnect, ws.onmessage, ws.onclose)}, 3000); 
 }
@@ -105,6 +104,7 @@ function disableInput() {
 function enableInput() {
 	$("#messageInput").prop('disabled', false);
 	$("#btnSend").prop('disabled', false);
+	$('#btnSend').empty();
 }
 
 
@@ -133,11 +133,11 @@ $(document).ready(function() {
     $('#btnConfirmLogout').on('click', function() {
 		logout();
 		$('#logoutModal').modal('hide');
+		showLoginModal();
     });
 
     $('#btnDismissLogout').on('click', function() {
 		$('#logoutModal').modal('hide');
-		showLoginModal();
     });
 });
 
@@ -152,12 +152,19 @@ function showConnectingButton() {
 	$('#btnConnect').append($("<span/>").addClass("glyphicon").addClass("glyphicon-refresh").addClass("glyphicon-refresh-animate"));
 }
 
+function restoreLoginButton() {
+	$('#btnConnect').prop('disabled', false);
+	$('#btnConnect').html("Go!");
+}
+
 function showLoginModal() {
 	$('#loginModal').on('shown.bs.modal', function () {
 		$('#userName').focus();
 	})
+	restoreLoginButton();
 	$('#loginModal').modal('show');
 };
+
 
 function showLogoutModal() {
 	$('#logoutModal').modal('show');
