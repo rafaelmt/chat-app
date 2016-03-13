@@ -11,7 +11,7 @@ function connect(serverUrl, onOpen, onMessage, onClose) {
 }
 
 function login(userName) {
-	name = userName;
+	name = encodeURIComponent(userName);
 	var serverUrl = endpoint + "?username=" + userName;
 	connect(serverUrl, onOpen, onMessage, onClose);
 }
@@ -104,7 +104,6 @@ function disableInput() {
 function enableInput() {
 	$("#messageInput").prop('disabled', false);
 	$("#btnSend").prop('disabled', false);
-	$('#btnSend').empty();
 }
 
 
