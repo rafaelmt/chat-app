@@ -162,7 +162,7 @@ function showLoginModal() {
 		$('#userName').focus();
 	})
 	restoreLoginButton();
-	$('#loginModal').modal('show');
+	$('#loginModal').modal( {backdrop: 'static', keyboard: false});
 };
 
 
