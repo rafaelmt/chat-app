@@ -21,7 +21,7 @@ function onOpen() {
 	$('#messageInput').focus();
 }
 
-function onMessage() {
+function onMessage(event) {
 	//TODO: check if JSON is valid
 	var data = $.parseJSON(event.data);
 	appendMessage(data);
