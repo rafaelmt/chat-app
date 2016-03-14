@@ -22,9 +22,13 @@ function onOpen() {
 }
 
 function onMessage(event) {
-	//TODO: check if JSON is valid
-	var data = $.parseJSON(event.data);
-	appendMessage(data);
+	try {
+		var data = $.parseJSON(event.data);
+		appendMessage(data);
+	} catch (e) {
+		console.log("Invalid message received");
+		return;
+	}
 }
 
 function onClose() {
