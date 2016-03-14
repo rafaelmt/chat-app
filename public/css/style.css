@@ -51,7 +51,8 @@ body { background: #D6EAFC !important; }
 
 .btn-send {
 	font-size: 16px;
-	padding: 8px 12px !important;
+	padding: 0px 12px !important;
+	height: 100%;
 }
 
 .btn-logout{
