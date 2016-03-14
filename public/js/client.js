@@ -110,49 +110,53 @@ function enableInput() {
 	$("#btnSend").prop('disabled', false);
 }
 
+function submitMessageForm(e) {
+	e.preventDefault();
+	var message = $('#messageInput').val();
+	$('#messageInput').val('');
+	appendMessage({sender: "me", message: message});
+	send(message);
+}
+
+function submitLoginForm(e) {
+	e.preventDefault();
+	showConnectingButton();
+	var userName = $('#userName').val();
+	login(userName);
+}
+
+function onClickLogout() {
+	showLogoutModal();
+}
+
+function onClickConfirmLogout() {
+	logout();
+	$('#logoutModal').modal('hide');
+	showLoginModal();
+}
+
+function onClickDismissLogout() {
+	$('#logoutModal').modal('hide')
+}
+
+function onMessageInputKeydown(event) {
+	if (event.keyCode == 13) {
+		if (!event.shiftKey) {
+			event.preventDefault();
+			$('#messageInput').submit();
+		}
+	}
+}
 
 $(document).ready(function() {
 	showLoginModal();
 
-	$('#loginForm').submit(function(e) {
-	    e.preventDefault();
-	    showConnectingButton();
-		var userName = $('#userName').val();
-		login(userName);
-	});
-
-	$('#sendForm').submit(function(e) {
-	    e.preventDefault();
-		var message = $('#messageInput').val();
-		if(message != "") {
-			$('#messageInput').val('');
-			appendMessage({sender: "me", message: message});
-			send(message);
-		}
-	});
-
-    $('#btnLogout').on('click', function() {
-		showLogoutModal();
-    });
-
-    $('#btnConfirmLogout').on('click', function() {
-		logout();
-		$('#logoutModal').modal('hide');
-		showLoginModal();
-    });
-
-    $('#btnDismissLogout').on('click', function() {
-		$('#logoutModal').modal('hide');
-    });
-
-	$('#messageInput').on('keydown', function(event) {
-		if (event.keyCode == 13) {
-			if (!event.shiftKey) {
-				event.preventDefault();
-				$('#messageInput').submit();
-			}
-		}
-	});
+	$('#loginForm').submit(submitLoginForm);
+	$('#sendForm').submit(submitMessageForm);
+	$('#btnLogout').on('click', onClickLogout);
+	$('#btnConfirmLogout').on('click', onClickConfirmLogout);
+	$('#btnDismissLogout').on('click', onClickDismissLogout);
+	$('#messageInput').on('keydown', onMessageInputKeydown);
 });
 
 
