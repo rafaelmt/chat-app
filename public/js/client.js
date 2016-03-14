@@ -142,12 +142,22 @@ $(document).ready(function() {
     $('#btnDismissLogout').on('click', function() {
 		$('#logoutModal').modal('hide');
     });
+
+	$('#messageInput').on('keydown', function(event) {
+		if (event.keyCode == 13) {
+			if (!event.shiftKey) {
+				event.preventDefault();
+				$('#messageInput').submit();
+			}
+		}
+	});
 });
 
 
 $('#messageForm').submit(function(event){
   event.preventDefault();
 });
+
 
 function showConnectingButton() {
 	$('#btnConnect').prop('disabled', true);
