@@ -1,3 +1,7 @@
+.title-login {
+	margin: 20px 0px 20px 0px;
+}
+
 .message {
 	background-color: #EEEEEE;
 	padding: 10px;
@@ -61,9 +65,17 @@ body { background: #D6EAFC !important; }
 	text-decoration: none !important;
 }
 
+.btn-connect{
+    margin: 15px;
+}
+
 .container {
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
+}
+
+.spinner-loading {
+	margin-left: 5px;
 }
 
 .glyphicon-refresh-animate {

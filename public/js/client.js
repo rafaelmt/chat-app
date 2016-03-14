@@ -148,7 +148,7 @@ $('#messageForm').submit(function(event){
 function showConnectingButton() {
 	$('#btnConnect').prop('disabled', true);
 	$('#btnConnect').html("Connecting");
-	$('#btnConnect').append($("<span/>").addClass("glyphicon").addClass("glyphicon-refresh").addClass("glyphicon-refresh-animate"));
+	$('#btnConnect').append($("<span/>").addClass("spinner-loading").addClass("glyphicon").addClass("glyphicon-refresh").addClass("glyphicon-refresh-animate"));
 }
 
 function restoreLoginButton() {
