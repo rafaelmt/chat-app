@@ -159,11 +159,9 @@ $(document).ready(function() {
 	$('#messageInput').on('keydown', onMessageInputKeydown);
 });
 
-
 $('#messageForm').submit(function(event){
   event.preventDefault();
 });
-
 
 function showConnectingButton() {
 	$('#btnConnect').prop('disabled', true);
@@ -184,7 +182,6 @@ function showLoginModal() {
 	$('#loginModal').modal( {backdrop: 'static', keyboard: false});
 };
 
-
 function showLogoutModal() {
 	$('#logoutModal').modal('show');
 };
@@ -193,5 +190,3 @@ function scrollToBottom() {
 	$("#messages-container").animate({ scrollTop: $('#messages-container').prop("scrollHeight")}, 100);
 
 };
-
-
