@@ -124,9 +124,11 @@ $(document).ready(function() {
 	$('#sendForm').submit(function(e) {
 	    e.preventDefault();
 		var message = $('#messageInput').val();
-		$('#messageInput').val('');
-		appendMessage({sender: "me", message: message});
-		send(message);
+		if(message != "") {
+			$('#messageInput').val('');
+			appendMessage({sender: "me", message: message});
+			send(message);
+		}
 	});
 
     $('#btnLogout').on('click', function() {
